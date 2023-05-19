@@ -1,0 +1,58 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO LIST</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}">
+</head>
+
+<body class="w-full h-full mt-[-16px]">
+    <div class="w-full font-mono text-slate-950 bg-white">
+        <div
+            class="backdrop-blur-2xl font-bold fixed w-full h-20 flex flex-col flex-start justify-center text-lg px-8 border-b border-b-slate-100">
+            TODO LIST
+        </div>
+        <div class="w-full flex flex-col px-8 mt-4 pt-24 pb-8">
+            <div class="font-bold">Open</div>
+            {% for item in items %}
+            {% if item.open %}
+            <div class="border border-slate-100 flex flex-row p-6 mt-4 hover:shadow-md">
+                <form action="{{'/check/' + item.id}}" method="get" class="flex flex-col flex-start justify-center">
+                    <input type="submit" value="" class="w-5 h-5 cursor-pointer border border-slate-200">
+                </form>
+                <div class="flex flex-col flex-start justify-start ml-3">
+                    <div class="text-lg font-bold">{{item.title}}</div>
+                    <div class="text-sm text-slate-400">{{item.description}}</div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            <form action="/add" method="post" class="mt-6">
+                <div class="font-bold text-md">Title:</div>
+                <div class="mt-3">
+                    <input required class="w-full h-10 border border-slate-100 px-2" type="text" name="title">
+                </div>
+                <div class="mt-4 font-bold text-md">Description:</div>
+                <div class="mt-3">
+                    <input class="w-full h-10 border border-slate-100 px-2" type="text" name="description">
+                </div>
+                <div class="w-fit mt-4 flex flex-col flex-start justify-start">
+                    <input type="submit" value="Add"
+                        class="p-1 px-3 border border-slate-200 cursor-pointer hover:bg-slate-50">
+                </div>
+            </form>
+            <div class="font-bold mt-4">CLosed</div>
+            {% for item in items %}
+            {% if not item.open %}
+            <div class="border border-slate-100 bg-slate-50 flex flex-row p-6 mt-4 hover:shadow-md">
+                <div class="flex flex-col flex-start justify-start">
+                    <div class="text-lg font-bold">{{item.title}}</div>
+                    <div class="text-sm text-slate-400">{{item.description}}</div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</body>
